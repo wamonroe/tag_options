@@ -37,6 +37,7 @@ Would render:
 - [Conditional Usage](#conditional-usage)
 - [Development](#development)
 - [Contributing](#contributing)
+- [To Do](#to-do)
 - [License](#license)
 
 ## Installation
@@ -169,6 +170,12 @@ push git commits and the created tag, and push the `.gem` file to [rubygems.org]
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/wamonroe/tag_options.
+
+## To Do
+
+- Consider adding special handling to certain attributes such as `id` or `style`
+- If special handling is added for some attributes, how could it be done extensiblity? Could it be done in a way that
+  allows consumers of the gem to add their own special handling?
 
 ## License
 
