@@ -17,27 +17,27 @@ module TagOptions
       )
     end
 
-    should 'read keys passed as strings' do
+    should 'read propertys passed as strings' do
       assert_equal 'flex', subject['class']
     end
 
-    should 'read keys passed as symbols' do
+    should 'read propertys passed as symbols' do
       assert_equal 'flex', subject[:class]
     end
 
-    should 'read keys seperated by dashes' do
+    should 'read propertys seperated by dashes' do
       assert_equal 'dropdown', subject['data-controller']
     end
 
-    should 'read keys seperated by underscores' do
+    should 'read propertys seperated by underscores' do
       assert_equal 'dropdown', subject[:data_controller]
     end
 
-    should 'return nil if the key does not exist' do
+    should 'return nil if the property does not exist' do
       assert_nil subject[:missing]
     end
 
-    should 'return nil if a nested key is does not exist' do
+    should 'return nil if a nested property is does not exist' do
       assert_nil subject[:data_missing]
     end
   end
