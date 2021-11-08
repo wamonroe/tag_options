@@ -21,12 +21,12 @@ module TagOptions
       )
     end
 
-    should 'instantiate from dashed and underscored keys' do
+    should 'instantiate from dashed and underscored properties' do
       hash = { 'data-controller': 'dropdown', 'data-action': 'dropdown#click' }
       assert_equal hash, TagOptions::Hash.new('data-controller': 'dropdown', data_action: 'dropdown#click')
     end
 
-    should 'instantiate from complex nested, dashed, and underscored keys' do
+    should 'instantiate from complex nested, dashed, and underscored properties' do
       hash = {
         'data-controller': 'dropdown',
         'data-action': 'dropdown#click',

@@ -31,6 +31,7 @@ Would render:
 ## Table of Contents
 
 - [Installation](#installation)
+- [Configuration](#configuration)
 - [General Usage](#general-usage)
   - [combine_with!](#combinewith)
   - [override!](#override)
@@ -52,6 +53,14 @@ And then execute:
 
 ```sh
 bundle install
+```
+
+## Configuration
+
+Generate an initializer to customize the default configuration:
+
+```sh
+rails generate arc_options:install
 ```
 
 ## General Usage
@@ -170,12 +179,6 @@ push git commits and the created tag, and push the `.gem` file to [rubygems.org]
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/wamonroe/tag_options.
-
-## To Do
-
-- Consider adding special handling to certain attributes such as `id` or `style`
-- If special handling is added for some attributes, how could it be done extensiblity? Could it be done in a way that
-  allows consumers of the gem to add their own special handling?
 
 ## License
 

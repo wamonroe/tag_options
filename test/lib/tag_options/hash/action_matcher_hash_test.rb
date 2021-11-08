@@ -20,8 +20,8 @@ module TagOptions
       assert_equal 'combine_with', subject.match('combine_with_class!')['action']
     end
 
-    should 'return a named key group with the expected value' do
-      assert_equal 'class', subject.match('combine_with_class!')['key']
+    should 'return a named property group with the expected value' do
+      assert_equal 'class', subject.match('combine_with_class!')['property']
     end
   end
 end

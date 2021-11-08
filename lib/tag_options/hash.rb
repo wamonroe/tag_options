@@ -2,49 +2,50 @@
 
 require 'active_support/core_ext/string'
 require 'forwardable'
+require 'tag_options/property_handler/resolve_value'
 
 module TagOptions
   class Hash
     extend Forwardable
 
-    def_delegators :@data, :inspect, :to_s, :stringify_keys, :<, :<=, :==, :>, :>=
+    def_delegators :@data, :inspect, :to_h, :to_hash, :to_s, :stringify_keys, :<, :<=, :==, :>, :>=
 
     # Hashes passed into the initializer are automatically flattened, with nested keys seperated by dashes. For example,
     # `data: { controller: 'dropdown' }`` becomes `'data-controller': 'dropdown'`.
     def initialize(hash={})
       @data = {}
-      flatten_hash(hash).each do |key, value|
-        self[key] = value
+      flatten_hash(hash).each do |property, value|
+        self[property] = value
       end
     end
 
     # []
-    # Underscores in a key name is automatically coverted to dashes. Keys can be specified as strings or symbols, both
-    # return the same value.
-    def [](key)
-      @data[normalize_key(key)]
+    # Underscores in a property name is automatically coverted to dashes. Properties can be specified as strings or
+    # symbols, both return the same value.
+    def [](property)
+      @data[normalize_property(property)]
     end
 
     # []=
-    # Hashes assigned to a key are automatically flatten, with nested keys seperated by dashes. Underscores in a key
-    # name is automatically converted to dashes. Keys can be specified as strings or symbols, both will assign the value
-    # to the same key.
-    def []=(key, value)
+    # Hashes assigned to a property are automatically flatten, with nested keys seperated by dashes. Underscores in a
+    # property name are automatically converted to dashes. Propertiess can be specified as strings or symbols, both will
+    # assign the value to the same property.
+    def []=(property, value)
       if value.is_a?(::Hash)
-        flatten_hash({ key => value }).each do |flat_key, flat_value|
-          @data[normalize_key(flat_key)] = flat_value
+        flatten_hash({ property => value }).each do |flat_property, flat_value|
+          store(flat_property, flat_value)
         end
       else
-        @data[normalize_key(key)] = value
+        store(property, value)
       end
     end
 
     # combine_with!
     # Allows you to combine values with multiple HTML attributes in one operation. Passed keys should be the HTML
-    # attributes to combine the values with. The values can be passed as single value (e.g. `class: 'flex'`) or as an
+    # property to combine the values with. The values can be specified as single string (e.g. `class: 'flex'`) or as an
     # argument array (e.g. `class: ['flex', 'mt-2', 'flex-col':  layout_column?]`). Hashes in an argument array have
     # their keys combined only their value is true. Nested keys will automatically be flattened and combine with the
-    # associated key (e.g. `data: { controller: 'dropdown' }` would be combined with `data-controller`).
+    # associated property (e.g. `data: { controller: 'dropdown' }` would be combined with `data-controller`).
     #
     #   #combine_with!(
     #     class: ['flex', 'mt-2', 'flex-col': layout_column?],
@@ -58,18 +59,18 @@ module TagOptions
     # attribute is converted to dashes, for example: `combine_with_data_controller!` will result in the argument array
     # being combined with existing values in `data-controller`.
     def combine_with!(hash={})
-      flatten_hash(hash).each do |key, args|
-        self[key] = combine_values(self[key], *args)
+      flatten_hash(hash).each do |property, args|
+        store(property, self[property], *args)
       end
       self
     end
 
     # override!
-    # Allows you to override values on multiple HTML attributes in one operation. Passed keys should be the HTML
-    # attributes to override the values of. The values can be passed as single string (e.g. `class: 'flex'`) or as an
+    # Allows you to override values on multiple HTML properties in one operation. Passed keys should be the HTML
+    # properties to override the values of. The values can be passed as single string (e.g. `class: 'flex'`) or as an
     # argument array (e.g. `class: ['flex', 'mt-2', 'flex-col':  layout_column?]`). Hashes in an argument array have
     # their keys added only if their value is true. Nested keys will automatically be flattened and override the value
-    # at the associated key (e.g. `data: { controller: 'dropdown' }` would override values at `data-controller`).
+    # at the associated property (e.g. `data: { controller: 'dropdown' }` would override values at `data-controller`).
     #
     #   #override!(
     #     class: ['flex', 'mt-2', 'flex-col': layout_column?],
@@ -83,35 +84,26 @@ module TagOptions
     # attribute is automatically nested, for example `override_data_controller!` will result in the argument array
     # overriding the existing values in `data-controller`.
     def override!(hash={})
-      flatten_hash(hash).each do |key, args|
-        self[key] = combine_values(*args)
+      flatten_hash(hash).each do |property, args|
+        store(property, *args)
       end
       self
     end
 
-    def to_h
-      @data.transform_values { |value| value.is_a?(::TagOptions::Hash) ? value.to_h : value }
-    end
-    alias to_hash to_h
-
   private
 
     def action_matcher
-      /\A(?<action>combine_with|override)_(?<key>.*)!\z/
-    end
-
-    def combine_values(*values, **conditions)
-      [*values, *resolve_conditions(conditions.to_h)].map { |v| v.to_s.split }.flatten.compact.uniq.join(' ')
+      /\A(?<action>combine_with|override)_(?<property>.*)!\z/
     end
 
     def flatten_hash(hash)
-      hash.each_with_object({}) do |(key, value), result|
+      hash.each_with_object({}) do |(property, value), result|
         if value.is_a?(::Hash)
-          flatten_hash(value).map do |nested_key, nested_value|
-            result["#{key}-#{nested_key}".to_sym] = nested_value
+          flatten_hash(value).map do |nested_property, nested_value|
+            result["#{property}-#{nested_property}".to_sym] = nested_value
           end
         else
-          result[key] = value
+          result[property] = value
         end
       end
     end
@@ -119,18 +111,24 @@ module TagOptions
     def method_missing(method_name, *args, &block)
       match_data = action_matcher.match(method_name.to_s)
       if match_data
-        public_send("#{match_data['action']}!", { match_data['key'] => args }, &block)
+        public_send("#{match_data['action']}!", { match_data['property'] => args }, &block)
       else
         super
       end
     end
 
-    def normalize_key(key)
-      key.to_s.downcase.dasherize.to_sym
+    def store(property, *values, **conditions)
+      property = normalize_property(property)
+      value = resolve_value(property, *values, **conditions)
+      value.empty? ? @data.delete(property) : @data[property] = value
     end
 
-    def resolve_conditions(conditions)
-      conditions.select { |_key, value| value }.keys
+    def resolve_value(property, *values, **conditions)
+      TagOptions::PropertyHandler::ResolveValue.call(property, *values, **conditions)
+    end
+
+    def normalize_property(property)
+      property.to_s.downcase.dasherize.to_sym
     end
 
     def respond_to_missing?(method_name, include_private=false)
