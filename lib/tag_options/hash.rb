@@ -2,12 +2,13 @@
 
 require 'active_support/core_ext/string'
 require 'forwardable'
-require 'tag_options/attribute_handler/resolve_value'
+require 'tag_options/property_handler/resolve_value'
+
 module TagOptions
   class Hash
     extend Forwardable
 
-    def_delegators :@data, :inspect, :to_s, :stringify_keys, :<, :<=, :==, :>, :>=
+    def_delegators :@data, :inspect, :to_h, :to_hash, :to_s, :stringify_keys, :<, :<=, :==, :>, :>=
 
     # Hashes passed into the initializer are automatically flattened, with nested keys seperated by dashes. For example,
     # `data: { controller: 'dropdown' }`` becomes `'data-controller': 'dropdown'`.
@@ -89,11 +90,6 @@ module TagOptions
       self
     end
 
-    def to_h
-      @data.transform_values { |value| value.is_a?(::TagOptions::Hash) ? value.to_h : value }
-    end
-    alias to_hash to_h
-
   private
 
     def action_matcher
@@ -128,7 +124,7 @@ module TagOptions
     end
 
     def resolve_value(property, *values, **conditions)
-      TagOptions::AttributeHandler::ResolveValue.call(property, *values, **conditions)
+      TagOptions::PropertyHandler::ResolveValue.call(property, *values, **conditions)
     end
 
     def normalize_property(property)

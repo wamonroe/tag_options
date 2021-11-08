@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require 'tag_options/configuration'
+
 module TagOptions
-  module AttributeHandler
+  module PropertyHandler
     class ResolveValue
       attr_reader :property
 
@@ -20,10 +22,11 @@ module TagOptions
     private
 
       def handler
-        TagOptions.configuration.attribute_handlers.each do |handler|
-          return handler if handler.safe_constantize&.handler_for?(property)
+        TagOptions.configuration.property_handlers.each do |handler_string|
+          handler = handler_string.constantize
+          return handler if handler.handler_for?(property)
         end
-        TagOptions.configuration.fallback_attribute_handler.constantize
+        TagOptions.configuration.fallback_property_handler.constantize
       end
     end
   end

@@ -1,0 +1,9 @@
+Description:
+  Creates a new initializer containing the default settings of the gem.
+
+Examples:
+  `rails generate tag_options:install`
+
+    Creates the following:
+
+      Initializer:  config/tag_options.rb

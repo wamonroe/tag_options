@@ -17,23 +17,23 @@ module TagOptions
       )
     end
 
-    should 'combine values to specified propertys' do
+    should 'combine values to specified properties' do
       subject.combine_with!(class: 'mt-1')
       assert_equal 'flex mt-1', subject[:class]
     end
 
-    should 'combine values to specified propertys without duplication' do
+    should 'combine values to specified properties without duplication' do
       subject.combine_with!(class: 'flex mt-1')
       assert_equal 'flex mt-1', subject[:class]
     end
 
-    should 'combine values to nested propertys without overwriting siblings' do
+    should 'combine values to nested properties without overwriting siblings' do
       subject.combine_with!(data: { controller: 'navbar' })
       assert_equal 'click->dropdown#hide', subject[:data_action]
       assert_equal 'dropdown navbar', subject[:data_controller]
     end
 
-    should 'allow values to be conditionally combined with specified propertys' do
+    should 'allow values to be conditionally combined with specified properties' do
       subject.combine_with!(class: ['mt-1', { 'flex-col': true, hidden: false }])
       assert_equal 'flex mt-1 flex-col', subject[:class]
     end

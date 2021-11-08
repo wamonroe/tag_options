@@ -1,20 +1,30 @@
 # frozen_string_literal: true
 
 module TagOptions
+  class << self
+    attr_writer :configuration
+
+    def configuration
+      @configuration ||= TagOptions::Configuration.new
+    end
+
+    def configure
+      yield(configuration)
+    end
+  end
+
   class Configuration
-    def attribute_handlers
-      @attribute_handlers ||= [
-        'TagOptions::AttributeHandler::Singular',
-        'TagOptions::AttributeHandler::Style'
+    attr_writer :fallback_property_handler, :property_handlers
+
+    def fallback_property_handler
+      @fallback_property_handler ||= 'TagOptions::PropertyHandler::Generic'
+    end
+
+    def property_handlers
+      @property_handlers ||= [
+        'TagOptions::PropertyHandler::Singular',
+        'TagOptions::PropertyHandler::Style'
       ]
-    end
-
-    def fallback_attribute_handler
-      'TagOptions::AttributeHandler::Generic'
-    end
-
-    def attribute_handlers=(value)
-      @attribute_handlers = Array(value)
     end
   end
 end

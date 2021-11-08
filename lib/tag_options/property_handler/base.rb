@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TagOptions
-  module AttributeHandler
+  module PropertyHandler
     class Base
       attr_reader :values, :conditions
 

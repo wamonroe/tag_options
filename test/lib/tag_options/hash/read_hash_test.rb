@@ -17,19 +17,19 @@ module TagOptions
       )
     end
 
-    should 'read propertys passed as strings' do
+    should 'read properties passed as strings' do
       assert_equal 'flex', subject['class']
     end
 
-    should 'read propertys passed as symbols' do
+    should 'read properties passed as symbols' do
       assert_equal 'flex', subject[:class]
     end
 
-    should 'read propertys seperated by dashes' do
+    should 'read properties seperated by dashes' do
       assert_equal 'dropdown', subject['data-controller']
     end
 
-    should 'read propertys seperated by underscores' do
+    should 'read properties seperated by underscores' do
       assert_equal 'dropdown', subject[:data_controller]
     end
 

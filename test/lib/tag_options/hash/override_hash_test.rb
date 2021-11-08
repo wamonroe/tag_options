@@ -17,7 +17,7 @@ module TagOptions
       )
     end
 
-    should 'override values to specified propertys' do
+    should 'override values to specified properties' do
       subject.override!(class: 'block')
       assert_equal 'block', subject[:class]
     end
@@ -28,7 +28,7 @@ module TagOptions
       assert_equal 'navbar', subject[:data_controller]
     end
 
-    should 'allow values to be conditionally overridden with specified propertys' do
+    should 'allow values to be conditionally overridden with specified properties' do
       subject.override!(class: ['block', { 'flex-col': true, hidden: false }])
       assert_equal 'block flex-col', subject[:class]
     end

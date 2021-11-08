@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'tag_options/attribute_handler/base'
+require 'tag_options/property_handler/base'
 
 module TagOptions
-  module AttributeHandler
+  module PropertyHandler
     class Generic < Base
       MATCHER = /\A.*\z/.freeze
 
