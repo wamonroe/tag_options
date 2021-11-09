@@ -52,6 +52,7 @@ Metrics/BlockLength:
 Metrics/ClassLength:
   Max: 200
   Exclude:
+    - "lib/tag_options/property_handler/tailwind_css.rb"
     - "test/**/*_test.rb"
 
 Metrics/CyclomaticComplexity:
@@ -59,6 +60,8 @@ Metrics/CyclomaticComplexity:
 
 Metrics/MethodLength:
   Max: 20
+  Exclude:
+    - "lib/tag_options/property_handler/tailwind_css.rb"
 
 Metrics/ModuleLength:
   Max: 200

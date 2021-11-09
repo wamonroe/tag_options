@@ -4,7 +4,7 @@ require 'test_helper'
 
 module TagOptions
   module PropertyHandler
-    class ConfigurationTest < ActiveSupport::TestCase
+    class SingularTest < ActiveSupport::TestCase
       subject { TagOptions::Hash.new(id: '1') }
 
       context '.handler_for?' do

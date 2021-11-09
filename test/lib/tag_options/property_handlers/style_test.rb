@@ -4,7 +4,7 @@ require 'test_helper'
 
 module TagOptions
   module PropertyHandler
-    class ConfigurationTest < ActiveSupport::TestCase
+    class StyleTest < ActiveSupport::TestCase
       subject { TagOptions::Hash.new(style: 'display: flex;') }
 
       context '.handler_for?' do

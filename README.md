@@ -3,10 +3,10 @@
 Simple library for manipulating options passed to the Rails `tag`, `content_tag`, and other tag helpers.
 
 This library provides a simple class to make authoring resuable helpers and [View Components](https://viewcomponent.org)
-easier when you want to allow for the input of attributes on HTML elements, but also need to add/set your own.
+easier when you want to allow for the input of properties on HTML elements, but also need to add/set your own.
 
 `TagOptions::Hash` is an object that normalizes the options passed to Rails helper, while providing helpful methods
-to manipulate the values of HTML attributes:
+to manipulate the values of HTML properties:
 
 ```ruby
 def external_link_to(name, url, options={})
@@ -36,6 +36,7 @@ Would render:
   - [combine_with!](#combinewith)
   - [override!](#override)
 - [Conditional Usage](#conditional-usage)
+- [Custom Property Handling](#custom-property-handling)
 - [Development](#development)
 - [Contributing](#contributing)
 - [To Do](#to-do)
@@ -61,6 +62,25 @@ Generate an initializer to customize the default configuration:
 
 ```sh
 rails generate arc_options:install
+```
+
+```ruby
+TagOptions.configure do |config|
+  # fallback_property_handler
+  #
+  # Defines the default behavior of how values are treated on HTML properties. `TagOptions::PropertyHandler::Generic`
+  # allows for multiple, unique, values seperated by spaces.
+  config.fallback_property_handler = 'TagOptions::PropertyHandler::Generic'
+
+  # property_handlers
+  #
+  # Allows of the custom handling of HTML properties that match the defined property handler. Properties are handled by
+  # the first matching property handler.
+  config.property_handlers = [
+    'TagOptions::PropertyHandler::Singular',
+    'TagOptions::PropertyHandler::Style'
+  ]
+end
 ```
 
 ## General Usage
@@ -164,6 +184,44 @@ options.combine_with_class!('mt-1', 'mx-auto': centered?, 'mx-2': !centered?)
 => {:class=>"flex mt-1 mx-auto"}
 ```
 
+## Custom Property Handling
+
+Tag Options ships with several property handlers enabled by default.
+
+- `TagOptions::PropertyHandler::Generic` - Processes all HTML properties that don't match another property handler.
+  Handles HTML properties similar to `class`.
+  - Multiple unique values are allowed
+  - Multiple values are seperated by a space
+- `TagOptions::PropertyHandler::Singular` - Processes `id`, `role`, and `aria-*` properties.
+  - Both `combine_with!` and `override!` function the same on these attributes.
+  - The last specified/resolved value is assigned to the property.
+- `TagOptions::PropertyHandler::Style` - Processes the `style` property. Allows for the parsing of HTML style property.
+  - Multiple values are allowed
+  - Values must be specified as `property: value;`
+  - The `combine_with!` method will overwrite an existing style property if it exists, but leave the reamining style
+    properties untouched.
+  - The `override!` method will overwrite all existing style properties.
+
+Tag Options also ships with an optional property handler for sorting Tailwind CSS classes inspired by/based on the
+VS Code extension [Headwind](https://github.com/heybourn/headwind). To enable this optional property handler,
+[generate a configuration](#configuration) and then add it as a property handler:
+
+```ruby
+require 'tag_options/property_handler/tailwind_css'
+
+TagOptions.configure do |config|
+  config.property_handlers = [
+    'TagOptions::PropertyHandler::TailwindCSS',
+    'TagOptions::PropertyHandler::Singular',
+    'TagOptions::PropertyHandler::Style'
+  ]
+end
+```
+
+A `TagOptions::PropertyHandler::Base` class is available if you wish to implement your own custom handlers. For
+examples on doing so, see the
+[built-in handlers](https://github.com/wamonroe/tag_options/tree/main/lib/tag_options/property_handler).
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/test` to run the tests. You can
@@ -171,6 +229,8 @@ also run:
 
 - `bin/console` for an interactive prompt that will allow you to experiment
 - `bin/rubocop` to run RuboCop to check the code style and formatting
+- `bin/update_tailwindcss` to update the sort order from the latest [Headwind](https://github.com/heybourn/headwind)
+  configuration.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the
 version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version,

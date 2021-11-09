@@ -11,6 +11,10 @@ module TagOptions
     def configure
       yield(configuration)
     end
+
+    def reset_configuration
+      @configuration = TagOptions::Configuration.new
+    end
   end
 
   class Configuration
