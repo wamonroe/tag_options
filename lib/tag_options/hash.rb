@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/string'
+require 'active_support/core_ext/array'
 require 'forwardable'
 require 'tag_options/property_handler/resolve_value'
 
@@ -117,8 +118,9 @@ module TagOptions
       end
     end
 
-    def store(property, *values, **conditions)
+    def store(property, *values)
       property = normalize_property(property)
+      conditions = values.extract_options!
       value = resolve_value(property, *values, **conditions)
       value.empty? ? @data.delete(property) : @data[property] = value
     end
