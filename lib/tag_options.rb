@@ -9,3 +9,9 @@ require 'tag_options/configuration'
 require 'tag_options/hash'
 require 'tag_options/railtie'
 require 'tag_options/version'
+
+module TagOptions
+  def self.Hash(hash={})
+    TagOptions::Hash.new(hash)
+  end
+end

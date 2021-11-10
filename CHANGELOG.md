@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Added TagOptions::Hash() ease-of-use method
+
 ## [0.9.2] - 2021-11-09
 
 - Added optional TailwindCSS property handler
