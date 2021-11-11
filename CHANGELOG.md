@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.9.3] - 2021-11-11
+
 - Added TagOptions::Hash() ease-of-use method
 - Bug fixes for Ruby 3.0
 
