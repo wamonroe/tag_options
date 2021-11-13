@@ -61,7 +61,7 @@ bundle install
 Generate an initializer to customize the default configuration:
 
 ```sh
-rails generate arc_options:install
+rails generate tag_options:install
 ```
 
 ```ruby
