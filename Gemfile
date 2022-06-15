@@ -6,6 +6,7 @@ gemspec
 
 group :development do
   gem "bundler-audit"
+  gem "rake"
   gem "rubocop-rspec"
   gem "standard"
 end
