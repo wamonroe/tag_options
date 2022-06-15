@@ -1,86 +1,32 @@
+# Use Standard as a style guide while continuing to use RuboCop as a linter and
+# formatter. This allows the use of RuboCop plugins and custom cops that
+# Standard doesn't provide support of out of the box.
+
+# Combine Exclude directives from different config files.
 inherit_mode:
   merge:
     - Exclude
-    - Include
+
 require:
-  - rubocop-minitest
   - rubocop-performance
-  - rubocop-rake
+  - standard
+
+inherit_gem:
+  standard: config/base.yml
+
+inherit_from:
+  - .rubocop_rspec.yml
 
 AllCops:
-  NewCops: enable
-
-Layout/AccessModifierIndentation:
-  EnforcedStyle: outdent
-
-Layout/ArgumentAlignment:
-  EnforcedStyle: with_fixed_indentation
-
-Layout/DotPosition:
-  EnforcedStyle: trailing
-
-Layout/FirstHashElementIndentation:
-  EnforcedStyle: consistent
-
-Layout/HashAlignment:
-  EnforcedLastArgumentHashStyle: ignore_implicit
-
-Layout/LineLength:
-  Max: 120
-
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
-Layout/SpaceAroundEqualsInParameterDefault:
-  EnforcedStyle: no_space
-
-Lint/UselessAccessModifier:
-  ContextCreatingMethods:
-    - included
-    - class_methods
-
-Metrics/AbcSize:
-  Max: 30
-
-Metrics/BlockLength:
-  Max: 50
-  IgnoredMethods:
-    - included
-    - class_methods
-    - run_callbacks
-
-Metrics/ClassLength:
-  Max: 200
+  TargetRubyVersion: 2.7
+  NewCops: disable
+  SuggestExtensions: false
   Exclude:
-    - "lib/tag_options/property_handler/tailwind_css.rb"
-    - "test/**/*_test.rb"
-
-Metrics/CyclomaticComplexity:
-  Max: 12
-
-Metrics/MethodLength:
-  Max: 20
-  Exclude:
-    - "lib/tag_options/property_handler/tailwind_css.rb"
-
-Metrics/ModuleLength:
-  Max: 200
-
-Metrics/PerceivedComplexity:
-  Max: 14
-
-Naming/MethodName:
-  Exclude:
-    - "lib/tag_options.rb"
-
-Style/DoubleNegation:
-  Enabled: false
-
-Style/Documentation:
-  Enabled: false
-
-Style/Lambda:
-  EnforcedStyle: literal
-
-Style/RegexpLiteral:
-  AllowInnerSlashes: true
+    # Match Standard's default ignore list:
+    # https://github.com/testdouble/standard/blob/main/lib/standard/creates_config_store/configures_ignored_paths.rb
+    - .git/**/*
+    - node_modules/**/*
+    - vendor/**/*
+    - bin/*
+    - db/schema.rb
+    - tmp/**/*

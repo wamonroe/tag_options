@@ -1,36 +1,24 @@
-# frozen_string_literal: true
-
-require_relative 'lib/tag_options/version'
+require_relative "lib/tag_options/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = 'tag_options'
-  spec.version     = TagOptions::VERSION
-  spec.authors     = ['Alex Monroe']
-  spec.email       = ['alex@monroepost.com']
+  spec.name = "tag_options"
+  spec.version = TagOptions::VERSION
+  spec.authors = ["Alex Monroe"]
+  spec.email = ["alex@monroepost.com"]
 
-  spec.summary     = 'Simple library for manipulating options passed to various Rails tag helpers.'
+  spec.summary = "Simple library for manipulating options passed to various Rails tag helpers."
   spec.description = spec.summary
-  spec.homepage    = 'https://github.com/wamonroe/tag_options'
-  spec.license     = 'MIT'
-  spec.required_ruby_version = '>= 2.7.0'
+  spec.homepage = "https://github.com/wamonroe/tag_options"
+  spec.license = "MIT"
+  spec.required_ruby_version = ">= 2.7.0"
 
-  spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = spec.homepage
-  spec.metadata['changelog_uri'] = 'https://github.com/wamonroe/tag_options/blob/main/CHANGELOG.md'
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = "https://github.com/wamonroe/tag_options/blob/main/CHANGELOG.md"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    Dir['{app,config,db,lib}/**/*', 'CHANGELOG.md', 'MIT-LICENSE', 'Rakefile', 'README.md']
+    Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
-  spec.add_development_dependency 'debug'
-  spec.add_development_dependency 'minitest'
-  spec.add_development_dependency 'mocha'
-  spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'rubocop-minitest'
-  spec.add_development_dependency 'rubocop-performance'
-  spec.add_development_dependency 'rubocop-rake'
-  spec.add_development_dependency 'shoulda'
-  spec.add_development_dependency 'simplecov'
-
-  spec.add_dependency 'rails', '>= 5.2.0'
+  spec.add_development_dependency "rspec"
 end
