@@ -12,3 +12,5 @@
 /.yardoc
 /_yardoc/
 .DS_Store
+Gemfile.lock
+.tool-versions
