@@ -1,5 +1,7 @@
 # Tag Options
 
+[![Test](https://github.com/wamonroe/tag_options/actions/workflows/test.yml/badge.svg)](https://github.com/wamonroe/tag_options/actions/workflows/test.yml)
+
 Simple library for manipulating options passed to the Rails `tag`,
 `content_tag`, and other tag helpers.
 
