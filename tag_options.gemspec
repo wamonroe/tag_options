@@ -20,5 +20,6 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
+  spec.add_dependency "activesupport"
   spec.add_development_dependency "rspec"
 end

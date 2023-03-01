@@ -1,11 +1,18 @@
+require "active_support/callbacks"
+require "active_support/core_ext/hash/indifferent_access"
 require "tag_options/hash_at"
 require "tag_options/errors/not_hash_error"
 
 module TagOptions
-  class Hash < ::Hash
+  class Hash < ActiveSupport::HashWithIndifferentAccess
+    include ActiveSupport::Callbacks
+    define_callbacks :initialize
+
     def initialize(hash = {})
-      hash.each do |key, value|
-        self[key] = value.is_a?(::Hash) ? TagOptions::Hash.new(value) : value
+      run_callbacks :initialize do
+        hash.each do |key, value|
+          self[key] = value.is_a?(::Hash) ? self.class.new(value) : value
+        end
       end
     end
 

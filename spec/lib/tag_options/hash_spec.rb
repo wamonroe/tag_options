@@ -39,6 +39,18 @@ RSpec.describe TagOptions::Hash do
       options = subject.at(:form, :data, :controller).combine!("items--form")
       expect(options.dig(:form, :data, :controller)).to eq("items--form")
     end
+
+    it "is expected to combine values on a root key with indifference" do
+      options = subject.at("class").combine!("mr-1")
+      expect(options["class"]).to be_a(String)
+      expect(options["class"]).to include("ml-1", "mr-1")
+    end
+
+    it "is expected to combine values on a nested hash with indifference" do
+      options = subject.at(:data, "controller").combine!("toggle")
+      expect(options.dig("data", :controller)).to be_a(String)
+      expect(options.dig("data", "controller")).to include("dropdown", "toggle")
+    end
   end
 
   context "#at().set!" do
@@ -68,6 +80,18 @@ RSpec.describe TagOptions::Hash do
     it "is expect to populate values on a non-existant nested hash" do
       options = subject.at(:form, :data, :controller).set!("items--form")
       expect(options.dig(:form, :data, :controller)).to eq("items--form")
+    end
+
+    it "is expected to populate values on a root key with indifference" do
+      options = subject.at("class").set!("mr-1")
+      expect(options["class"]).to be_a(String)
+      expect(options["class"]).to eq("mr-1")
+    end
+
+    it "is expected to populate values on a nested hash with indifference" do
+      options = subject.at(:data, "controller").set!("toggle")
+      expect(options.dig("data", :controller)).to be_a(String)
+      expect(options.dig("data", "controller")).to eq("toggle")
     end
   end
 

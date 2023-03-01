@@ -2,10 +2,15 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2023-03-01
+
+- Switched to inheriting from ActiveSupport::HashWithIndifferentAccess.
+- Added before/after/around initialize callback support.
+
 ## [1.0.0] - 2022-06-14
 
 - Rewrote and simplified TagOptions::Hash and supporting classes.
-- BREAKING CHANGES, read documentation for updated usage before updating
+- BREAKING CHANGES, read documentation for updated usage before updating.
 
 ## [0.9.3] - 2021-11-11
 
