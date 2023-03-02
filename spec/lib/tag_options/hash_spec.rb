@@ -14,19 +14,16 @@ RSpec.describe TagOptions::Hash do
   context "#at().combine!" do
     it "is expected to combine values on a root key" do
       options = subject.at(:class).combine!("mr-1")
-      expect(options[:class]).to be_a(String)
       expect(options[:class]).to include("ml-1", "mr-1")
     end
 
     it "is expected to populate values on a non-existant root key" do
       options = subject.at(:html).combine!("mr-1")
-      expect(options[:class]).to be_a(String)
       expect(options[:class]).to eq("ml-1")
     end
 
     it "is expected to combine values on a nested hash" do
       options = subject.at(:data, :controller).combine!("toggle")
-      expect(options.dig(:data, :controller)).to be_a(String)
       expect(options.dig(:data, :controller)).to include("dropdown", "toggle")
     end
 
@@ -42,33 +39,35 @@ RSpec.describe TagOptions::Hash do
 
     it "is expected to combine values on a root key with indifference" do
       options = subject.at("class").combine!("mr-1")
-      expect(options["class"]).to be_a(String)
       expect(options["class"]).to include("ml-1", "mr-1")
     end
 
     it "is expected to combine values on a nested hash with indifference" do
       options = subject.at(:data, "controller").combine!("toggle")
-      expect(options.dig("data", :controller)).to be_a(String)
       expect(options.dig("data", "controller")).to include("dropdown", "toggle")
+    end
+
+    it "is expected to combine values specified as arrays" do
+      values = ["mt-1", "mx-2"]
+      options = subject.at(:class).combine!(values)
+      expect(options[:class]).not_to include(values.to_s)
+      expect(options[:class]).to include(*values)
     end
   end
 
   context "#at().set!" do
     it "is expected to populate values on a root key" do
       options = subject.at(:class).set!("mr-1")
-      expect(options[:class]).to be_a(String)
       expect(options[:class]).to eq("mr-1")
     end
 
     it "is expected to populate values on a non-existant root key" do
       options = subject.at(:html).set!("mr-1")
-      expect(options[:class]).to be_a(String)
       expect(options[:class]).to eq("ml-1")
     end
 
     it "is expected to populate values on a nested hash" do
       options = subject.at(:data, :controller).set!("toggle")
-      expect(options.dig(:data, :controller)).to be_a(String)
       expect(options.dig(:data, :controller)).to eq("toggle")
     end
 
@@ -84,14 +83,20 @@ RSpec.describe TagOptions::Hash do
 
     it "is expected to populate values on a root key with indifference" do
       options = subject.at("class").set!("mr-1")
-      expect(options["class"]).to be_a(String)
       expect(options["class"]).to eq("mr-1")
     end
 
     it "is expected to populate values on a nested hash with indifference" do
       options = subject.at(:data, "controller").set!("toggle")
-      expect(options.dig("data", :controller)).to be_a(String)
       expect(options.dig("data", "controller")).to eq("toggle")
+    end
+
+    it "is expected to populate values specified as arrays" do
+      values = ["mt-1", "mx-2"]
+      options = subject.at(:class).set!(values)
+      expect(options[:class]).not_to include("ml-1")
+      expect(options[:class]).not_to include(values.to_s)
+      expect(options[:class]).to include(*values)
     end
   end
 

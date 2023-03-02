@@ -41,6 +41,7 @@ Would render:
   - [General Usage](#general-usage)
     - [combine!](#combine)
     - [set!](#set)
+    - [default!](#default)
   - [Conditional Usage](#conditional-usage)
   - [Custom Property Resolvers](#custom-property-resolvers)
   - [Development](#development)
@@ -71,8 +72,11 @@ TagOptions::Hash.new
 
 hash = {class: "flex"}
 TagOptions::Hash.new(hash)
-=> {:class=>"flex"}
+=> {"class"=>"flex"}
 ```
+
+`TagOptions::Hash` inherits from `ActiveSupport::HashWithIndifferentAccess`,
+implementing a hash where keys `:foo` and `"foo"` are considered to be the same.
 
 ### combine!
 
@@ -82,7 +86,7 @@ Combine HTML attributes with an existing `TagOptions::Hash` by chaining `at` and
 ```ruby
 options = TagOptions::Hash.new(class: "flex")
 options.at(:class).combine!("mt-1")
-=> {:class=>"flex mt-1"}
+=> {"class"=>"flex mt-1"}
 ```
 
 Values can also be specified as arrays.
@@ -90,7 +94,7 @@ Values can also be specified as arrays.
 ```ruby
 options = TagOptions::Hash.new(class: "flex")
 options.at(:class).combine!(["mt-1", "mx-2"])
-=> {:class=>"flex mt-1 mx-2"}
+=> {"class"=>"flex mt-1 mx-2"}
 ```
 
 HTML attributes are only added if they don't already exist.
@@ -98,7 +102,7 @@ HTML attributes are only added if they don't already exist.
 ```ruby
 options = TagOptions::Hash.new(class: "flex")
 options.at(:class).combine!("flex flex-col")
-=> {:class=>"flex flex-col"}
+=> {"class"=>"flex flex-col"}
 ```
 
 You can also combine values on nested hashes.
@@ -106,7 +110,7 @@ You can also combine values on nested hashes.
 ```ruby
 options = TagOptions::Hash.new(class: "flex", data: {controller: "dropdown"})
 options.at(:data, :controller).combine!("toggle")
-=> {:class=>"flex", :data=>{:controller=>"dropdown toggle"}
+=> {"class"=>"flex", "data"=>{"controller"=>"dropdown toggle"}}
 ```
 
 If a nested hash doesn't already exist it will be automatically added.
@@ -114,7 +118,7 @@ If a nested hash doesn't already exist it will be automatically added.
 ```ruby
 options = TagOptions::Hash.new(class: "flex")
 options.at(:data, :controller).combine!("dropdown")
-=> {:class=>"flex", :data=>{:controller=>"dropdown"}
+=> {"class"=>"flex", "data"=>{"controller"=>"dropdown"}}
 ```
 
 ### set!
@@ -126,7 +130,20 @@ existing values.
 ```ruby
 options = TagOptions::Hash.new(class: "flex")
 options.at(:class).set!("block")
-=> {:class=>"block"}
+=> {"class"=>"block"}
+```
+
+### default!
+
+Chaining `at` and `default!` functions nearly the same as `set!` with all the
+same usage patterns. The only difference is that the default method will only
+set the specified values if the value is not already specified.
+
+```ruby
+options = TagOptions::Hash.new(class: "flex")
+options.at(:class).default!("block")
+options.at(:role).default!("alert")
+=> {"class"=>"flex", "role"=>"alert"}
 ```
 
 ## Conditional Usage
@@ -139,7 +156,7 @@ unconditionally and key/value pairs have their key added _IF_ the value is true.
 # assuming `centered?` returns `true`
 options = TagOptions::Hash.new(class: "flex")
 options.at(:class).combine!("mt-1", "mx-auto": centered?, "mx-2": !centered?)
-=> {:class=>"flex mt-1 mx-auto"}
+=> {"class"=>"flex mt-1 mx-auto"}
 ```
 
 ## Custom Property Resolvers
@@ -164,7 +181,7 @@ pass `as: :style` to `at`.
 ```ruby
 options = TagOptions::Hash.new(style: "display: block; margin-left: 0;")
 options.at(:style, as: :style).combine!("display: flex; margin-right: 0;")
-=> {:style=>"display: flex; margin-left: 0; margin-right: 0;"}
+=> {"style"=>"display: flex; margin-left: 0; margin-right: 0;"}
 ```
 
 A `TagOptions::Resolver` class is available if you wish to implement your own

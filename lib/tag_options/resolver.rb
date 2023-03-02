@@ -1,7 +1,7 @@
 module TagOptions
   class Resolver
     def initialize(*values, **conditional_values)
-      @values = [*values, *resolve_conditional_values(conditional_values)]
+      @values = [*values.flatten, *resolve_conditional_values(conditional_values)]
     end
 
     def self.call(...)

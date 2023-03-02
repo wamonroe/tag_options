@@ -28,9 +28,9 @@ module TagOptions
       populated_keys = []
       data = self
       keys.each do |key|
-        data[key] ||= TagOptions::Hash.new
+        data[key] ||= self.class.new
         data = data[key]
-        unless data.is_a?(TagOptions::Hash)
+        unless data.is_a?(self.class)
           raise TagOptions::Errors::NotHashError.new(populated_keys, type: data.class)
         end
       end

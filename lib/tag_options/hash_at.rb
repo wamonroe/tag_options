@@ -15,12 +15,23 @@ module TagOptions
       set_value! @resolver.call(current_value, *values, **conditions)
     end
 
+    def default!(*values, **conditions)
+      @opt_hash.populate!(*@keys)
+      set_default! @resolver.call(*values, **conditions)
+    end
+
     def set!(*values, **conditions)
       @opt_hash.populate!(*@keys)
       set_value! @resolver.call(*values, **conditions)
     end
 
     private
+
+    def set_default!(value)
+      root = @opt_hash.dig(*@keys)
+      root[@value_key] = value unless root.key?(@value_key)
+      @opt_hash
+    end
 
     def set_value!(value)
       @opt_hash.dig(*@keys)[@value_key] = value

@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2023-03-01
+
+- Added `at().default!` option for setting values that are not already present.
+- Fix for passing an array of values to `combine1` or `set!`
+
 ## [1.1.0] - 2023-03-01
 
 - Switched to inheriting from ActiveSupport::HashWithIndifferentAccess.
