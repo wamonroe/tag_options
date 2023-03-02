@@ -1,11 +1,14 @@
 require "tag_options/configuration"
+require "tag_options/convert_key"
 
 module TagOptions
   class HashAt
+    include ConvertKey
+
     def initialize(opt_hash:, keys:, as:)
       @opt_hash = opt_hash
-      @keys = keys[..-2]
-      @value_key = keys[-1]
+      @keys = keys[..-2].map { |key| convert_key(key) }
+      @value_key = convert_key(keys[-1])
       @resolver = TagOptions.configuration.resolver(as)
     end
 

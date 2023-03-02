@@ -2,14 +2,22 @@
 
 ## [Unreleased]
 
-## [1.2.0] - 2023-03-01
+
+## [1.2.1] - 2023-03-02
+
+- Fixed bug introduced when switching to
+  `ActiveSupport::HashWithIndifferentAccess` that prevented a `TagOptions::Hash`
+  from being passed to a method using double splat, e.g. `some_method
+  **options`.
+
+## [1.2.0] - 2023-03-02
 
 - Added `at().default!` option for setting values that are not already present.
 - Fix for passing an array of values to `combine1` or `set!`
 
 ## [1.1.0] - 2023-03-01
 
-- Switched to inheriting from ActiveSupport::HashWithIndifferentAccess.
+- Switched to inheriting from `ActiveSupport::HashWithIndifferentAccess`.
 - Added before/after/around initialize callback support.
 
 ## [1.0.0] - 2022-06-14
