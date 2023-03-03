@@ -8,6 +8,10 @@ module TagOptions
       new(...).call
     end
 
+    def self.values(...)
+      new(...).values
+    end
+
     private
 
     def resolve_conditional_values(conditional_values)

@@ -42,6 +42,7 @@ Would render:
     - [combine!](#combine)
     - [set!](#set)
     - [default!](#default)
+    - [remove!](#remove)
   - [Conditional Usage](#conditional-usage)
   - [Custom Property Resolvers](#custom-property-resolvers)
   - [Development](#development)
@@ -149,17 +150,58 @@ options.at(:role).default!("alert")
 => {:class=>"flex", :role=>"alert"}
 ```
 
+### remove!
+
+Remove HTML attributes from an existing `TagOptions::Hash` by chaining `at` and
+`remove!`.
+
+```ruby
+options = TagOptions::Hash.new(class: "flex ml-1 mr-1")
+options.at(:class).remove!("mr-1")
+=> {:class=>"flex ml-1"}
+```
+
+In addition to string values, you can also pass regular expression to `remove!`.
+
+```ruby
+options = TagOptions::Hash.new(class: "flex ml-1 mr-2")
+options.at(:class).remove!(/m.-\d/)
+=> {:class=>"flex"}
+```
+
 ## Conditional Usage
 
-Both the `combine!` and `set!` allow for values to be conditionally added to
-HTML attributes using an argument array. Where the values are added
-unconditionally and key/value pairs have their key added _IF_ the value is true.
+The `combine!`, `set!`, `default!`, and `remove!` methods allow for values to be
+conditionally resolved using an argument array. Where the values are passed
+unconditionally and key/value pairs have their key passed _IF_ the value is
+true.
 
 ```ruby
 # assuming `centered?` returns `true`
 options = TagOptions::Hash.new(class: "flex")
 options.at(:class).combine!("mt-1", "mx-auto": centered?, "mx-2": !centered?)
 => {:class=>"flex mt-1 mx-auto"}
+```
+
+```ruby
+# assuming `centered?` returns `true`
+options = TagOptions::Hash.new(class: "flex")
+options.at(:class).set!("block", "mx-auto": centered?, "mx-2": !centered?)
+=> {:class=>"block mx-auto"}
+```
+
+```ruby
+# assuming `centered?` returns `true`
+options = TagOptions::Hash.new(role: "alert")
+options.at(:class).default!("flex", "mx-auto": centered?, "mx-2": !centered?)
+=> {:role=>"alert", :class=>"flex mx-auto"}
+```
+
+```ruby
+# assuming `centered?` returns `true`
+options = TagOptions::Hash.new(class: "flex mx-auto mx-2")
+options.at(:class).remove!("mt-1", "mx-auto": centered?, "mx-2": !centered?)
+=> {:class=>"flex mx-2"}
 ```
 
 ## Custom Property Resolvers

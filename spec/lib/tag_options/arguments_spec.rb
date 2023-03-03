@@ -1,9 +1,9 @@
 require "tag_options/hash"
 
 RSpec.describe TagOptions::Hash do
-  subject { described_class.new(passed_options) }
+  subject(:options) { described_class.new(hash) }
 
-  let(:passed_options) do
+  let(:hash) do
     {
       name: "Exmaple",
       data: {controller: "dropdown"}
@@ -19,10 +19,10 @@ RSpec.describe TagOptions::Hash do
   end
 
   it "properly passed a named keyword" do
-    expect(name_keyword(**subject)).to eq("Exmaple")
+    expect(name_keyword(**options)).to eq("Exmaple")
   end
 
   it "properly passes double splatted keywords" do
-    expect(other_options(**subject)).to include(data: {controller: "dropdown"})
+    expect(other_options(**options)).to include(data: {controller: "dropdown"})
   end
 end
