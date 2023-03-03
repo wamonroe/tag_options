@@ -28,7 +28,26 @@ module TagOptions
       set_value! @resolver.call(*values, **conditions)
     end
 
+    def remove!(*values, **conditions)
+      @opt_hash.populate!(*@keys)
+      regex_values, values = values.flatten.partition { |v| v.is_a?(Regexp) }
+      remove_values!(*regex_values, *@resolver.values(*values, **conditions))
+    end
+
     private
+
+    def remove_values!(*values_to_remove)
+      values = @resolver.values(@opt_hash.dig(*@keys)[@value_key])
+      values_to_remove.each do |value|
+        if value.is_a?(Regexp)
+          values.reject! { |current_value| value.match?(current_value) }
+        else
+          values.reject! { |current_value| value == current_value }
+        end
+      end
+      @opt_hash.dig(*@keys)[@value_key] = @resolver.call(*values)
+      @opt_hash
+    end
 
     def set_default!(value)
       root = @opt_hash.dig(*@keys)

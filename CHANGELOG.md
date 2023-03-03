@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2023-03-03
+
+- Added `at().remove!` option for removing values.
+
+**NOTE**: If you have implemented custom resolvers, you will need to modify them
+in order to support `remove!`. For examples, see the [built-in
+handlers](https://github.com/wamonroe/tag_options/tree/main/lib/tag_options/resolvers)
+for more information.
 
 ## [1.2.1] - 2023-03-02
 
@@ -23,7 +31,8 @@
 ## [1.0.0] - 2022-06-14
 
 - Rewrote and simplified TagOptions::Hash and supporting classes.
-- BREAKING CHANGES, read documentation for updated usage before updating.
+
+**BREAKING CHANGES**: Read documentation for updated usage before updating.
 
 ## [0.9.3] - 2021-11-11
 

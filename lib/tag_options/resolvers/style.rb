@@ -4,7 +4,11 @@ module TagOptions
   module Resolvers
     class Style < Resolver
       def call
-        styles.map { |p, v| "#{p}: #{v};" }.join(" ")
+        values.join(" ")
+      end
+
+      def values
+        styles.map { |p, v| "#{p}: #{v};" }
       end
 
       private

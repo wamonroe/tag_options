@@ -4,7 +4,11 @@ module TagOptions
   module Resolvers
     class Default < Resolver
       def call
-        @values.map { |v| v.to_s.split }.flatten.compact.uniq.join(" ")
+        values.join(" ")
+      end
+
+      def values
+        @values.map { |v| v.to_s.split }.flatten.compact.uniq
       end
     end
   end
