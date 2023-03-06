@@ -65,7 +65,7 @@ bundle install
 
 ## General Usage
 
-Initialize a `TagOptions::Hash` directly or by passing an existing `Hash`.
+Instantiate a `TagOptions::Hash` directly or by passing an existing `Hash`.
 
 ```ruby
 TagOptions::Hash.new
@@ -74,6 +74,24 @@ TagOptions::Hash.new
 hash = {class: "flex"}
 TagOptions::Hash.new(hash)
 => {:class=>"flex"}
+```
+
+Similar to `Array()`, you can also instantiate a new `TagOptions::Hash` by
+passing a has to `TagOptions::Hash()`.
+
+```ruby
+hash = {class: "flex"}
+TagOptions::Hash(hash)
+=> {:class=>"flex"}
+```
+
+The values of the hash passed to `TagOptions::Hash.new` or `TagOptions::Hash()`
+are automatically converted to strings.
+
+```ruby
+hash = {disabled: true}
+TagOptions::Hash.new(hash)
+=> {:disabled=>"true"}
 ```
 
 `TagOptions::Hash` inherits from `ActiveSupport::HashWithIndifferentAccess`,

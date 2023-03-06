@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.3.1] - 2023-03-06
+
+- Fixed a bug where keys with empty values were being populated when using
+`at()` against a non-existant key and the values passed to `combine!`, `set!`,
+  or `default` resolved to no values or where `remove!` removed all values.
+
 ## [1.3.0] - 2023-03-03
 
 - Added `at().remove!` option for removing values.
