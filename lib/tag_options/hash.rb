@@ -63,10 +63,10 @@ module TagOptions
       hash.each do |key, value|
         if value.blank?
           hash.delete(key)
-          remove_blank!(parent_hash) if parent_hash
+          remove_blank!(parent_hash, parent_hash: nil) if parent_hash
         elsif value.is_a?(Hash)
           remove_blank!(value, parent_hash: hash)
-          remove_blank!(parent_hash) if parent_hash
+          remove_blank!(parent_hash, parent_hash: nil) if parent_hash
         end
       end
       hash
