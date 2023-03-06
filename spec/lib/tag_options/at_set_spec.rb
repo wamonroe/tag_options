@@ -54,12 +54,32 @@ RSpec.describe TagOptions::Hash do
       expect(options[:class]).not_to include(values.to_s)
       expect(options[:class]).to include(*values)
     end
+
+    it "is expected do nothing when no values are resolved on a non-existant root key" do
+      options.at(:nonexistant).set!(conditional_value: false)
+      expect(options).not_to have_key(:nonexistant)
+    end
+
+    it "is expected do nothing when no values are resolved on a non-existant nested hash" do
+      options.at(:nonexistant, :nested).set!(conditional_value: false)
+      expect(options).not_to have_key(:nonexistant)
+    end
   end
 
   context "#at(as: :style).set!" do
     it "is expected to populate html styles" do
       options.at(:style, as: :style).set!("margin-right: 10px;")
       expect(options[:style]).to eq("margin-right: 10px;")
+    end
+
+    it "is expected do nothing when no values are resolved on a non-existant root key" do
+      options.at(:nonexistant, as: :style).set!("display: none;": false)
+      expect(options).not_to have_key(:nonexistant)
+    end
+
+    it "is expected do nothing when no values are resolved on a non-existant nested hash" do
+      options.at(:nonexistant, :nested, as: :style).set!("display: none;": false)
+      expect(options).not_to have_key(:nonexistant)
     end
   end
 end

@@ -7,8 +7,7 @@ RSpec.describe TagOptions::Hash do
     {
       class: "ml-1",
       style: "display: none;",
-      data: {controller: "dropdown", "dropdown-override-value": nil},
-      disabled: false
+      data: {controller: "dropdown"}
     }
   end
 
@@ -33,16 +32,14 @@ RSpec.describe TagOptions::Hash do
       expect(options.dig(:data, :controller)).to eq("dropdown")
     end
 
-    it "is expected not to set an explicity defined false value" do
-      options.at(:disabled).default!(true)
-      expect(options).to have_key(:disabled)
-      expect(options[:disabled]).to be_falsey
+    it "is expected do nothing when no values are resolved on a non-existant root key" do
+      options.at(:nonexistant).default!(conditional_value: false)
+      expect(options).not_to have_key(:nonexistant)
     end
 
-    it "is expected not to set an explicity defined nil value" do
-      options.at(:data, "dropdown-override-value").default!("blue")
-      expect(options[:data]).to have_key("dropdown-override-value")
-      expect(options.dig(:data, "dropdown-override-value")).to be_nil
+    it "is expected do nothing when no values are resolved on a non-existant nested hash" do
+      options.at(:nonexistant, :nested).default!(conditional_value: false)
+      expect(options).not_to have_key(:nonexistant)
     end
   end
 
@@ -52,13 +49,19 @@ RSpec.describe TagOptions::Hash do
       expect(options[:style]).to eq("display: none;")
     end
 
-    context "with non-existing style" do
-      let(:hash) { {} }
+    it "is expected to set a non-existing style key" do
+      options.at(:nonexistant, as: :style).default!("color: red;")
+      expect(options[:nonexistant]).to eq("color: red;")
+    end
 
-      it "is expected to set a non-existing style key" do
-        options.at(:style, as: :style).default!("color: red;")
-        expect(options[:style]).to eq("color: red;")
-      end
+    it "is expected do nothing when no values are resolved on a non-existant root key" do
+      options.at(:nonexistant, as: :style).default!("display: none;": false)
+      expect(options).not_to have_key(:nonexistant)
+    end
+
+    it "is expected do nothing when no values are resolved on a non-existant nested hash" do
+      options.at(:nonexistant, :nested, as: :style).default!("display: none;": false)
+      expect(options).not_to have_key(:nonexistant)
     end
   end
 end

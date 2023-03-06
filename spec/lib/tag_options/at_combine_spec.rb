@@ -53,6 +53,16 @@ RSpec.describe TagOptions::Hash do
       expect(options[:class]).not_to include(values.to_s)
       expect(options[:class]).to include(*values)
     end
+
+    it "is expected do nothing when no values are resolved on a non-existant root key" do
+      options.at(:nonexistant).combine!(conditional_value: false)
+      expect(options).not_to have_key(:nonexistant)
+    end
+
+    it "is expected do nothing when no values are resolved on a non-existant nested hash" do
+      options.at(:nonexistant, :nested).combine!(conditional_value: false)
+      expect(options).not_to have_key(:nonexistant)
+    end
   end
 
   context "#at(as: :style).combine!" do
@@ -69,6 +79,16 @@ RSpec.describe TagOptions::Hash do
     it "is expected to skip malformed styles" do
       options.at(:style, as: :style).combine!("display:")
       expect(options[:style]).to eq("display: none;")
+    end
+
+    it "is expected do nothing when no values are resolved on a non-existant root key" do
+      options.at(:nonexistant, as: :style).combine!("display: none;": false)
+      expect(options).not_to have_key(:nonexistant)
+    end
+
+    it "is expected do nothing when no values are resolved on a non-existant nested hash" do
+      options.at(:nonexistant, :nested, as: :style).combine!("display: none;": false)
+      expect(options).not_to have_key(:nonexistant)
     end
   end
 end
