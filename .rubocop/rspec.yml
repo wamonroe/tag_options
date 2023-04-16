@@ -1,6 +1,3 @@
-# Based on Evil Martians configuration:
-# https://gist.githubusercontent.com/palkan/623c0816b05ed246bfe0cb406050990a/raw/7b3314e9bc9431fb23d29019261edec47df0ad10/.rubocop_rspec.yml
-
 require:
   - rubocop-rspec
 
@@ -48,7 +45,7 @@ RSpec/MissingExampleGroupArgument:
 RSpec/ReceiveCounts:
   Enabled: true
 
-RSpec/Capybara/CurrentPathExpectation:
+Capybara/CurrentPathExpectation:
   Enabled: true
 
 RSpec/FactoryBot/AttributeDefinedStatically:

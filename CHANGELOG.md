@@ -2,10 +2,14 @@
 
 ## [Unreleased]
 
+## [1.4.0] - 2023-04-15
+
+- Removed support for Ruby 2.7.
+
 ## [1.3.1] - 2023-03-06
 
 - Fixed a bug where keys with empty values were being populated when using
-`at()` against a non-existant key and the values passed to `combine!`, `set!`,
+  `at()` against a non-existant key and the values passed to `combine!`, `set!`,
   or `default` resolved to no values or where `remove!` removed all values.
 
 ## [1.3.0] - 2023-03-03
@@ -22,7 +26,7 @@ for more information.
 - Fixed bug introduced when switching to
   `ActiveSupport::HashWithIndifferentAccess` that prevented a `TagOptions::Hash`
   from being passed to a method using double splat, e.g. `some_method
-  **options`.
+**options`.
 
 ## [1.2.0] - 2023-03-02
 

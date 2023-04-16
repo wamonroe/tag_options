@@ -4,17 +4,14 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # Specify your gem's dependencies in tag_options.gemspec.
 gemspec
 
-group :development do
-  gem "bundler-audit"
-  gem "rake"
-  gem "rubocop-rspec"
-  gem "standard"
-end
+gem "bundler-audit"
+gem "pry-byebug"
+gem "rake"
+gem "simplecov", require: false
+gem "rspec"
 
-group :development, :test do
-  gem "debug"
-end
-
-group :test do
-  gem "simplecov", require: false
-end
+# Code formating and linting
+gem "erb_lint"
+gem "htmlbeautifier"
+gem "rubocop-rspec"
+gem "standard"

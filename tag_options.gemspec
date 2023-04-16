@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.description = spec.summary
   spec.homepage = "https://github.com/wamonroe/tag_options"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.7.0"
+  spec.required_ruby_version = ">= 3.0.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
@@ -21,5 +21,4 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency "activesupport"
-  spec.add_development_dependency "rspec"
 end
