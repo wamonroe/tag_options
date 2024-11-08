@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.4.1] - 2024-11-08
+
+- Removed support for Ruby 3.0
+
 ## [1.4.0] - 2023-04-15
 
 - Removed support for Ruby 2.7.
