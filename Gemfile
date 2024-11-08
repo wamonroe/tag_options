@@ -11,7 +11,5 @@ gem "simplecov", require: false
 gem "rspec"
 
 # Code formating and linting
-gem "erb_lint"
-gem "htmlbeautifier"
 gem "rubocop-rspec"
 gem "standard"
