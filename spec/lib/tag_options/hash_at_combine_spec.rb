@@ -11,7 +11,7 @@ RSpec.describe TagOptions::Hash do
     }
   end
 
-  context "#at().combine!" do
+  describe "#at().combine!" do
     it "is expected to combine values on a root key" do
       options.at(:class).combine!("mr-1")
       expect(options[:class]).to include("ml-1", "mr-1")
@@ -47,7 +47,7 @@ RSpec.describe TagOptions::Hash do
       expect(options.dig("data", "controller")).to include("dropdown", "toggle")
     end
 
-    it "is expected to combine values specified as arrays" do
+    it "is expected to combine values specified as arrays", :aggregate_failures do
       values = ["mt-1", "mx-2"]
       options.at(:class).combine!(values)
       expect(options[:class]).not_to include(values.to_s)
@@ -65,7 +65,7 @@ RSpec.describe TagOptions::Hash do
     end
   end
 
-  context "#at(as: :style).combine!" do
+  describe "#at(as: :style).combine!" do
     it "is expected to combine html styles" do
       options.at(:style, as: :style).combine!("margin-right: 10px;")
       expect(options[:style]).to include("display: none;", "margin-right: 10px;")

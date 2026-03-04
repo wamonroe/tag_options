@@ -14,13 +14,13 @@ RSpec.describe TagOptions::Hash do
     }
   }
 
-  context ".new" do
-    it "is expected to remove keys assigned values that evaluate to blank strings" do
+  describe ".new" do
+    it "is expected to remove keys assigned values that evaluate to blank strings", :aggregate_failures do
       expect(options).not_to have_key(:empty_value_key)
       expect(options).not_to have_key(:nil_value_key)
     end
 
-    it "is expected to convert values to strings" do
+    it "is expected to convert values to strings", :aggregate_failures do
       expect(options[:false_value_key]).to eq("false")
       expect(options[:true_value_key]).to eq("true")
       expect(options[:symbol_value_key]).to eq("symbol")

@@ -1,6 +1,6 @@
 require "tag_options/hash"
 
-class CustomTagOptionHash < TagOptions::Hash
+class HashCallback < TagOptions::Hash
   set_callback :initialize, :before do |object|
     object[:before_key] = true
   end
@@ -16,19 +16,19 @@ class CustomTagOptionHash < TagOptions::Hash
   end
 end
 
-RSpec.describe CustomTagOptionHash do
-  subject { described_class.new({}) }
+RSpec.describe HashCallback do
+  subject(:hash) { described_class.new({}) }
 
   it "executes defined before callback" do
-    expect(subject[:before_key]).to be_truthy
+    expect(hash[:before_key]).to be_truthy
   end
 
   it "executes defined after callback" do
-    expect(subject[:after_key]).to be_truthy
+    expect(hash[:after_key]).to be_truthy
   end
 
-  it "executes defined around callback" do
-    expect(subject[:around_key_1]).to be_truthy
-    expect(subject[:around_key_2]).to be_truthy
+  it "executes defined around callback", :aggregate_failures do
+    expect(hash[:around_key_1]).to be_truthy
+    expect(hash[:around_key_2]).to be_truthy
   end
 end

@@ -11,7 +11,7 @@ RSpec.describe TagOptions::Hash do
     }
   end
 
-  context "#at().remove!" do
+  describe "#at().remove!" do
     it "is expected to remove a value" do
       options.at(:class).remove!("mr-1")
       expect(options[:class]).to eq("ml-1")
@@ -58,7 +58,7 @@ RSpec.describe TagOptions::Hash do
     end
   end
 
-  context "#at(as: :style).remove!" do
+  describe "#at(as: :style).remove!" do
     it "is expected to remove a value" do
       options.at(:style, as: :style).remove!("color: red;")
       expect(options[:style]).to eq("display: none; background-color: white;")

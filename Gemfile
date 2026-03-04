@@ -9,7 +9,8 @@ gem "pry-byebug"
 gem "rake"
 gem "simplecov", require: false
 gem "rspec"
+gem "ruby-lsp-rspec", require: false
 
 # Code formating and linting
-gem "rubocop-rspec"
 gem "standard"
+gem "standard-rspec"

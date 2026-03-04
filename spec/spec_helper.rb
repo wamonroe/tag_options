@@ -68,4 +68,6 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
 end
 
+# standard:disable RSpec/Output
 puts "Running tests for Ruby #{RUBY_VERSION}"
+# standard:enable RSpec/Output

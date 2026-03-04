@@ -11,7 +11,7 @@ RSpec.describe TagOptions::Hash do
     }
   end
 
-  context "#at().default!" do
+  describe "#at().default!" do
     it "is expected not to override an existing key" do
       options.at(:class).default!("mr-1")
       expect(options[:class]).to eq("ml-1")
@@ -43,7 +43,7 @@ RSpec.describe TagOptions::Hash do
     end
   end
 
-  context "#at(as: :style).default!" do
+  describe "#at(as: :style).default!" do
     it "is expected not to change an existing style key" do
       options.at(:style, as: :style).default!("color: red;")
       expect(options[:style]).to eq("display: none;")

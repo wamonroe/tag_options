@@ -7,13 +7,13 @@ RSpec.describe TagOptions::Resolvers::Style do
     ["color:red;background-color: white;", " font-weight:  bold;"]
   }
 
-  context "#values" do
-    it "splits and flattens values" do
+  describe "#values" do
+    it "splits and flattens values", :aggregate_failures do
       expect(resolver.values).to be_a(Array)
       expect(resolver.values.size).to eq(3)
     end
 
-    it "normalizes values" do
+    it "normalizes values", :aggregate_failures do
       expect(resolver.values).to be_a(Array)
       expect(resolver.values).to include("color: red;", "font-weight: bold;")
     end
