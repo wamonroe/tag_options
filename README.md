@@ -1,6 +1,10 @@
 # Tag Options
 
-[![Test](https://github.com/wamonroe/tag_options/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/wamonroe/tag_options/actions/workflows/test.yml)
+> [!WARNING]
+> This gem is no longer maintained. With ViewComponent no longer seeing new
+> features, this project is not under active development. Bug fixes and pull
+> requests will not be reviewed or merged. Feel free to fork if you need
+> continued support.
 
 Simple library for manipulating options passed to the Rails `tag`,
 `content_tag`, and other tag helpers.
